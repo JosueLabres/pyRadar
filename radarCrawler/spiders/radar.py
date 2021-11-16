@@ -17,11 +17,11 @@ class RadarSpider(scrapy.Spider):
     def parse_httpbin(self, response):
         self.logger.info('Got successful response from {}'.format(response.url))
         
-        yield scrapy.Request(f'{response.url}sitemap.xml', callback=self.parse_sitemap, cb_kwargs=dict(main_url=response.url, status=response.status, certificate=response.certificate, ip_address=response.ip_address))
+        yield scrapy.Request(f'{response.url}sitemap.xml', callback=self.parse_sitemap, cb_kwargs=dict(main_url=response.url, status=response.status, certificate=response.certificate))
        
         # do something useful here...
 
-    def parse_sitemap(self, response, main_url, status, certificate, ip_address):
+    def parse_sitemap(self, response, main_url, status, certificate):
         
         bs = BeautifulSoup(response.body, 'html.parser')
         big = bs.find_all('loc')
@@ -34,7 +34,7 @@ class RadarSpider(scrapy.Spider):
             "status": status,
             'big': big,
             'certificate': certificate,
-            'ip_address': ip_address
+            'ip_address': response.ip_address
         }
 
     def errback_httpbin(self, failure):
