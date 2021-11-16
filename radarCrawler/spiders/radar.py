@@ -34,7 +34,6 @@ class RadarSpider(scrapy.Spider):
             "status": status,
             'big': big,
             'certificate': certificate,
-            'ip_address': response.ip_address
         }
 
     def errback_httpbin(self, failure):
@@ -53,9 +52,8 @@ class RadarSpider(scrapy.Spider):
             yield {
                 'url': response.url,
                 'status': response.status,
+                'big': '',
                 'certificate': response.certificate,
-                'ip_address': response.ip_address,
-                'big': ''
                 
             }
 
@@ -67,9 +65,8 @@ class RadarSpider(scrapy.Spider):
             yield {
                 'url': request.url,
                 'status': 'DNSLookupError',
+                'big': '',
                 'certificate': '',
-                'ip_address': '',
-                'big': ''
             }
 
         elif failure.check(TimeoutError, TCPTimedOutError):
@@ -79,7 +76,6 @@ class RadarSpider(scrapy.Spider):
             yield {
                 'url': request.url,
                 'status': 'TimeoutError',
+                'big': '',
                 'certificate': '',
-                'ip_address': '',
-                'big': ''
             }
