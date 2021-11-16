@@ -1,7 +1,7 @@
 import scrapy
 import csv
 import requests
-
+from bs4 import BeautifulSoup
 class RadarSpider(scrapy.Spider):
     name = 'radar'
     start_urls = []
